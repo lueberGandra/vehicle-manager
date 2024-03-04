@@ -3,15 +3,15 @@ import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedCol
 @Entity('vehicles')
 export class Vehicle {
     @PrimaryGeneratedColumn()
-    id: number;   
+    id: number;
 
-    @Column('text', { default: null })
+    @Column('text', { nullable: false })
     color: string;
 
-    @Column('text', { default: null })
+    @Column('text', { nullable: false })
     brand: string;
 
-    @Column('text', { default: null, unique: true })
+    @Column('text', { nullable: false, unique: true })
     plate: string;
 
     @CreateDateColumn()
