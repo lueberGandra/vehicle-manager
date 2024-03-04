@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,8 +8,13 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class VehicleService {
   constructor(@InjectRepository(Vehicle) private vehicleRepository: Repository<Vehicle>) { }
-  createVehicle(createVehicleDto: CreateVehicleDto) {
-    return this.vehicleRepository.save(createVehicleDto)
+  async createVehicle(createVehicleDto: CreateVehicleDto) {
+    try {
+      const vehicle = await this.vehicleRepository.save(createVehicleDto)
+      return vehicle
+    } catch (error) {
+      throw new HttpException(error.message, error.status || HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   findAll() {
