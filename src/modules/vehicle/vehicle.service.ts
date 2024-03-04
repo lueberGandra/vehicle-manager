@@ -8,8 +8,8 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class VehicleService {
   constructor(@InjectRepository(Vehicle) private vehicleRepository: Repository<Vehicle>) { }
-  create(createVehicleDto: CreateVehicleDto) {
-    return this.vehicleRepository.save({brand:'GM',color:'#010',plate:'787-az8afss'})
+  createVehicle(createVehicleDto: CreateVehicleDto) {
+    return this.vehicleRepository.save({brand:'GM',color:'#010',plate:'787asfsa-az8afss'})
   }
 
   findAll() {
