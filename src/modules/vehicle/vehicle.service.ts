@@ -4,6 +4,7 @@ import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Vehicle } from 'src/libs/typeorm/entities/vehicle.entity';
 import { Repository } from 'typeorm';
+import { GetAllVehiclesDto } from './dto/get-all-vehicle.dto copy';
 
 @Injectable()
 export class VehicleService {
@@ -17,8 +18,13 @@ export class VehicleService {
     }
   }
 
-  findAll() {
-    return this.vehicleRepository.find()
+  async findAllVehicles(queryData:GetAllVehiclesDto) {
+    try {
+      const vehicles = await this.vehicleRepository.find({ where: queryData })
+      return vehicles
+    } catch (error) {
+      throw new HttpException(error.message, error.status || HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   findOne(id: number) {
