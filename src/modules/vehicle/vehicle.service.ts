@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 export class VehicleService {
   constructor(@InjectRepository(Vehicle) private vehicleRepository: Repository<Vehicle>) { }
   createVehicle(createVehicleDto: CreateVehicleDto) {
-    return this.vehicleRepository.save({brand:'GM',color:'#010',plate:'787asfsa-az8afss'})
+    return this.vehicleRepository.save(createVehicleDto)
   }
 
   findAll() {

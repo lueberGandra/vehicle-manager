@@ -1,4 +1,5 @@
 import { IsHexColor, IsNotEmpty, IsString} from 'class-validator'
+import { IsBrazilianCarPlate } from 'src/decorators/isBrazilianCarPlateConstraint ';
 export class CreateVehicleDto {
     @IsString()
     @IsHexColor()
@@ -10,6 +11,7 @@ export class CreateVehicleDto {
     brand: string;
 
     @IsString()
+    @IsBrazilianCarPlate()
     @IsNotEmpty()
     plate: string;
 }
