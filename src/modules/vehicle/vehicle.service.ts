@@ -18,7 +18,7 @@ export class VehicleService {
     }
   }
 
-  async findAllVehicles(queryData:GetAllVehiclesDto) {
+  async findAllVehicles(queryData: GetAllVehiclesDto) {
     try {
       const vehicles = await this.vehicleRepository.find({ where: queryData })
       return vehicles
@@ -27,11 +27,16 @@ export class VehicleService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} vehicle`;
+  async findVehicleById(id: number) {
+    try {
+      const vehicle = await this.vehicleRepository.findOne({ where: { id } })
+      return vehicle
+    } catch (error) {
+      throw new HttpException(error.message, error.status || HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
-  update(id: number, updateVehicleDto: UpdateVehicleDto) {
+  async updateVehicle(id: number, updateVehicleDto: UpdateVehicleDto) {
     return `This action updates a #${id} vehicle`;
   }
 
