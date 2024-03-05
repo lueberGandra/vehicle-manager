@@ -30,6 +30,7 @@ export class VehicleService {
   async findVehicleById(id: number) {
     try {
       const vehicle = await this.vehicleRepository.findOne({ where: { id } })
+      if (!vehicle) throw new Error(`Vehicle ${id} not found!`)
       return vehicle
     } catch (error) {
       throw new HttpException(error.message, error.status || HttpStatus.INTERNAL_SERVER_ERROR);
@@ -37,7 +38,9 @@ export class VehicleService {
   }
 
   async updateVehicle(id: number, updateVehicleDto: UpdateVehicleDto) {
-    return `This action updates a #${id} vehicle`;
+    const vehicle = await this.vehicleRepository.findOne({ where: { id } })
+    if (!vehicle) throw new Error(`Vehicle ${id} not found!`)
+    return await this.vehicleRepository.save({ ...vehicle, ...updateVehicleDto })
   }
 
   remove(id: number) {
