@@ -38,12 +38,23 @@ export class VehicleService {
   }
 
   async updateVehicle(id: number, updateVehicleDto: UpdateVehicleDto) {
-    const vehicle = await this.vehicleRepository.findOne({ where: { id } })
-    if (!vehicle) throw new Error(`Vehicle ${id} not found!`)
-    return await this.vehicleRepository.save({ ...vehicle, ...updateVehicleDto })
+    try {
+      const vehicle = await this.vehicleRepository.findOne({ where: { id } })
+      if (!vehicle) throw new Error(`Vehicle ${id} not found!`)
+      return await this.vehicleRepository.save({ ...vehicle, ...updateVehicleDto })
+    } catch (error) {
+      throw new HttpException(error.message, error.status || HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} vehicle`;
+  async deleteVehicle(id: number) {
+    try {
+      const vehicle = await this.vehicleRepository.findOne({ where: { id } })
+      if (!vehicle) throw new Error(`Vehicle ${id} not found!`)
+      await this.vehicleRepository.softDelete({ id })
+      return { msg: `Vehicle ${id} successfully deleted!` }
+    } catch (error) {
+      throw new HttpException(error.message, error.status || HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
