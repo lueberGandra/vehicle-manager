@@ -4,11 +4,12 @@ import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Vehicle } from 'src/libs/typeorm/entities/vehicle.entity';
 import { Repository } from 'typeorm';
-import { GetAllVehiclesDto } from './dto/get-all-vehicle.dto copy';
+import { GetAllVehiclesDto } from './dto/get-all-vehicle.dto';
 
 @Injectable()
 export class VehicleService {
   constructor(@InjectRepository(Vehicle) private vehicleRepository: Repository<Vehicle>) { }
+  
   async createVehicle(createVehicleDto: CreateVehicleDto) {
     try {
       const vehicle = await this.vehicleRepository.save(createVehicleDto)
@@ -37,11 +38,11 @@ export class VehicleService {
     }
   }
 
-  async updateVehicle(id: number, updateVehicleDto: UpdateVehicleDto) {
+  async updateVehicle(id: number, updateVehicleData: UpdateVehicleDto) {
     try {
       const vehicle = await this.vehicleRepository.findOne({ where: { id } })
       if (!vehicle) throw new Error(`Vehicle ${id} not found!`)
-      return await this.vehicleRepository.save({ ...vehicle, ...updateVehicleDto })
+      return await this.vehicleRepository.save({ ...vehicle, ...updateVehicleData })
     } catch (error) {
       throw new HttpException(error.message, error.status || HttpStatus.INTERNAL_SERVER_ERROR);
     }

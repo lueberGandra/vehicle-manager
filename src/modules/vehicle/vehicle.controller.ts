@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete, Query, Put } from '@nestjs/
 import { VehicleService } from './vehicle.service';
 import { CreateVehicleDto } from './dto/create-vehicle.dto';
 import { UpdateVehicleDto } from './dto/update-vehicle.dto';
-import { GetAllVehiclesDto } from './dto/get-all-vehicle.dto copy';
+import { GetAllVehiclesDto } from './dto/get-all-vehicle.dto';
 
 @Controller('vehicle')
 export class VehicleController {

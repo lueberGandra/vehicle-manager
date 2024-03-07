@@ -1,5 +1,5 @@
 import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
-import { IsBrazilianCarPlateConstraint } from 'src/classValidators/isBrazilianCarPlate';
+import { IsBrazilianCarPlateConstraint } from '../classValidators/isBrazilianCarPlate';
 
 export function IsBrazilianCarPlate(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {

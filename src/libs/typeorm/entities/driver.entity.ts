@@ -8,8 +8,8 @@ export class Driver {
     @Column('text', { nullable: false })
     name: string;
 
-    @Column('text', { nullable: false })
-    cpf: string;   
+    @Column('text', { nullable: false, unique: true })
+    cpf: string;
 
     @CreateDateColumn()
     createdAt: Date;
