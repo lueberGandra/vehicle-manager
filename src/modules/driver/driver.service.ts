@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Driver } from 'src/libs/typeorm/entities/driver.entity';
 import { Repository } from 'typeorm';
 import { GetAllDriversDto } from './dto/get-all-drivers.dto';
+import { paginateRaw } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class DriverService {
@@ -21,8 +22,15 @@ export class DriverService {
 
   async findAllDrivers(queryData: GetAllDriversDto) {
     try {
-      const vehicles = await this.driverRepository.find({ where: queryData })
-      return vehicles
+      const { page, limit, ...filters } = queryData
+      const drivers = this.driverRepository.createQueryBuilder('drivers');
+      for (const key in filters) {
+        drivers.andWhere(
+          `LOWER(drivers.${key}) LIKE '%${filters[key].toLowerCase()}%'`,
+        )
+      }
+      return paginateRaw(drivers, { page, limit });
+
     } catch (error) {
       throw new HttpException(error.message, error.status || HttpStatus.INTERNAL_SERVER_ERROR);
     }

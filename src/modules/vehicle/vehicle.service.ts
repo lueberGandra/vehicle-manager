@@ -5,11 +5,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Vehicle } from 'src/libs/typeorm/entities/vehicle.entity';
 import { Repository } from 'typeorm';
 import { GetAllVehiclesDto } from './dto/get-all-vehicle.dto';
+import { paginateRaw } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class VehicleService {
   constructor(@InjectRepository(Vehicle) private vehicleRepository: Repository<Vehicle>) { }
-  
+
   async createVehicle(createVehicleDto: CreateVehicleDto) {
     try {
       const vehicle = await this.vehicleRepository.save(createVehicleDto)
@@ -21,8 +22,14 @@ export class VehicleService {
 
   async findAllVehicles(queryData: GetAllVehiclesDto) {
     try {
-      const vehicles = await this.vehicleRepository.find({ where: queryData })
-      return vehicles
+      const { page, limit, ...filters } = queryData
+      const vehicles = this.vehicleRepository.createQueryBuilder('vehicles');
+      for (const key in filters) {
+        vehicles.andWhere(
+          `LOWER(vehicles.${key}) LIKE '%${filters[key].toLowerCase()}%'`,
+        )
+      }
+      return paginateRaw(vehicles, { page, limit });
     } catch (error) {
       throw new HttpException(error.message, error.status || HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -1,5 +1,5 @@
 // query.dto.ts
-import { IsString, IsNotEmpty, IsNumberString, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsNumberString } from 'class-validator';
 
 export class GetAllDriversDto {
     @IsString()
@@ -7,9 +7,13 @@ export class GetAllDriversDto {
     @IsOptional()
     name?: string;
 
-    @IsString()
+    @IsOptional()
     @IsNotEmpty()
     @IsNumberString()
+    page: string = '1';
+
     @IsOptional()
-    cpf?: string;
+    @IsNotEmpty()
+    @IsNumberString()
+    limit: string = '10';
 }

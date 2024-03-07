@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm';
+import { CarUtilizationRecord } from './car-utilization-record.entity';
 
 @Entity('drivers')
 export class Driver {
@@ -6,10 +7,10 @@ export class Driver {
     id: number;
 
     @Column('text', { nullable: false })
-    name: string;
+    name: string;    
 
-    @Column('text', { nullable: false, unique: true })
-    cpf: string;
+    @OneToMany(() => CarUtilizationRecord, (assignment) => assignment.driver)
+    assignments: CarUtilizationRecord[];
 
     @CreateDateColumn()
     createdAt: Date;
@@ -19,5 +20,4 @@ export class Driver {
 
     @DeleteDateColumn({ default: null })
     deletedAt: Date;
-
 }

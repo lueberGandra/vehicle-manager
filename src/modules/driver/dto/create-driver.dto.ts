@@ -1,14 +1,7 @@
-import { IsNotEmpty, IsNumberString, IsString } from 'class-validator';
-import { IsCPF } from 'src/utils/decorators/isValidCPFValidator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateDriverDto {
     @IsString()
     @IsNotEmpty()
     name: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @IsNumberString()
-    @IsCPF()
-    cpf: string;
 }

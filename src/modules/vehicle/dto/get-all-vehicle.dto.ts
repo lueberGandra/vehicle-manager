@@ -1,10 +1,9 @@
 // query.dto.ts
-import { IsString, IsHexColor, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsNumberString } from 'class-validator';
 import { IsBrazilianCarPlate } from 'src/utils/decorators/isBrazilianCarPlateValidator';
 
 export class GetAllVehiclesDto {
     @IsString()
-    @IsHexColor()
     @IsOptional()
     color?: string;
 
@@ -18,4 +17,14 @@ export class GetAllVehiclesDto {
     @IsNotEmpty()
     @IsOptional()
     plate?: string;
+
+    @IsOptional()
+    @IsNotEmpty()
+    @IsNumberString()
+    page: string = '1';
+
+    @IsOptional()
+    @IsNotEmpty()
+    @IsNumberString()
+    limit: string = '10';
 }
