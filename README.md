@@ -1,73 +1,432 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Vehicle Manager!
+---
+# Orientações
+<details>
+  <summary>
+    <strong>🤝 Passo a Passo</strong>
+  </summary><br>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+  1. Clone o repositório
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+  - Use o comando: `git clone git@github.com:lueberGandra/vehicle-manager.git`
+  - Entre na pasta do repositório que você acabou de clonar:
+    - `cd vehicle-manager`
 
-## Description
+  2. Instale as dependências
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+  - Usando o comando: `npm install`
+  
+  4. Inicie a aplicação
 
-## Installation
+  - Usando o comando: `npm run start`
+  
+</details>
 
-```bash
-$ npm install
-```
+</details>
 
-## Running the app
+---
 
-```bash
-# development
-$ npm run start
+  
+# Documentação
 
-# watch mode
-$ npm run start:dev
+---
+####  1 - Cadastrar motorista
+- (POST): `http://localhost:3000/driver`
+<details>
 
-# production mode
-$ npm run start:prod
-```
+- Payload:
+ 
+    ```json
+    {
+        "name": "Rocket Raccoon"
+    }
+    ``` 
 
-## Test
+- Response:
 
-```bash
-# unit tests
-$ npm run test
+    ```json
+    {
+        "name": "Rocket Raccoon",
+        "id": 4,
+        "createdAt": "2024-03-08T00:55:09.000Z",
+        "updatedAt": "2024-03-08T00:55:09.000Z",
+        "deletedAt": null
+    }
+    ``` 
+</details>
 
-# e2e tests
-$ npm run test:e2e
+####  2 - Atualizar motorista
+- (PUT): `http://localhost:3000/driver/:id`
+<details>
+- Payload:
 
-# test coverage
-$ npm run test:cov
-```
+    ```json
+    {
+        "name": "Star Lord"
+    }
+    ```
 
-## Support
+- Response:
+    ```json
+    {
+        "id": 4,
+        "name": "Star Lord",
+        "createdAt": "2024-03-08T00:55:09.000Z",
+        "updatedAt": "2024-03-08T00:56:09.000Z",
+        "deletedAt": null
+    }
+    ``` 
+</details>
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+####  3 - Buscar motorista por número de identificação
+- (GET): `http://localhost:3000/driver/:id`
+<details>
+- Response:
 
-## Stay in touch
+    ```json
+    {
+        "id": 1,
+        "name": "Din Djarin",
+        "createdAt": "2024-03-07T18:41:36.000Z",
+        "updatedAt": "2024-03-07T18:41:36.000Z",
+        "deletedAt": null
+    }
+    ``` 
+</details>
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-## License
+####  4 - Buscar todos os motoristas
+- (GET): `http://localhost:3000/driver?page=1&limit=10`
+<details>
+- Response:
 
-Nest is [MIT licensed](LICENSE).
+    ```json
+    {
+        "items": 
+        [
+          {
+            "drivers_id": 1,
+            "drivers_name": "Din Djarin",
+            "drivers_createdAt": "2024-03-07 18:41:36",
+            "drivers_updatedAt": "2024-03-07 18:41:36",
+            "drivers_deletedAt": null
+          },
+          {
+            "drivers_id": 4,
+            "drivers_name": "Star Lord",
+            "drivers_createdAt": "2024-03-08 00:55:09",
+            "drivers_updatedAt": "2024-03-08 00:56:09",
+            "drivers_deletedAt": null
+          }
+        ],
+        "meta": 
+        {
+            "totalItems": 4,
+            "itemCount": 4,
+            "itemsPerPage": 10,
+            "totalPages": 1,
+            "currentPage": 1
+        }
+    }
+    
+    ``` 
+</details>
+
+####  4 - Buscar motorista utilizando o nome ou parte dele
+- (GET): `http://localhost:3000/driver?name=Din&page=1&limit=10`
+<details>
+- Response:
+
+    ```json
+     {
+        "items": 
+        [
+          {
+            "drivers_id": 1,
+            "drivers_name": "Din Djarin",
+            "drivers_createdAt": "2024-03-07 18:41:36",
+            "drivers_updatedAt": "2024-03-07 18:41:36",
+            "drivers_deletedAt": null
+          },          
+        ],
+        "meta": 
+        {
+            "totalItems": 4,
+            "itemCount": 4,
+            "itemsPerPage": 10,
+            "totalPages": 1,
+            "currentPage": 1
+        }
+    }
+    ``` 
+</details>
+
+####  5 - Deletar motorista com o número de identificação
+- (DELETE): `http://localhost:3000/driver/:id`
+<details>
+
+- Response: 
+
+    ```json
+    {
+        "msg": "Driver {id} successfully deleted!"
+    }
+    ```
+</details>
+
+####  6 - Cadastrar veículo
+- (POST): `http://localhost:3000/vehicle`
+<details>
+- Regras: 
+    - Não é possível cadastrar mais de um carro com a mesma placa;
+    - A placa cadastrada deve ser no padrão brasileiro
+
+- Payload: 
+
+    ```json
+    {
+        "brand":"Renault",
+        "color":"silver",
+        "plate":"HEM-6817"
+    }
+    ``` 
+
+- Response:
+
+    ```json
+    {
+        "brand": "Renault",
+        "color": "#fff",
+        "plate": "HEM-6817",
+        "id": 4,
+        "createdAt": "2024-03-08T01:03:53.000Z",
+        "updatedAt": "2024-03-08T01:03:53.000Z",
+        "deletedAt": null
+    }
+    ``` 
+
+</details>
+
+####  7 - Atualizar veículo
+- (PUT): `http://localhost:3000/vehicle/:id`
+<details>
+- Regras: 
+    - Não é possível cadastrar mais de um carro com a mesma placa;
+    - A placa cadastrada deve ser no padrão brasileiro
+- Payload:
+
+    ```json
+    {
+        "color":"orange",
+    }
+    ``` 
+
+- Response:
+
+    ```json
+    {
+        "id": 4,
+        "color": "orange",
+        "brand": "fiat",
+        "plate": "HEM-6818",
+        "createdAt": "2024-03-08T01:03:53.000Z",
+        "updatedAt": "2024-03-08T01:04:55.000Z",
+        "deletedAt": null
+    }
+    ``` 
+
+</details>
+
+####  8 - Buscar veículo por número de identificação
+- (GET): `http://localhost:3000/vehicle/:id`
+<details>
+- Response:
+
+    ```json
+    {
+        "id": 4,
+        "color": "orange",
+        "brand": "fiat",
+        "plate": "HEM-6818",
+        "createdAt": "2024-03-08T01:03:53.000Z",
+        "updatedAt": "2024-03-08T01:04:55.000Z",
+        "deletedAt": null
+    }
+    ``` 
+
+</details>
+
+####  9 - Buscar todos os veículos
+- (GET): `http://localhost:3000/vehicle`
+<details>
+- Response:
+
+    ```json
+    {
+    "items": [
+        {
+            "vehicles_id": 1,
+            "vehicles_color": "#fff",
+            "vehicles_brand": "GM",
+            "vehicles_plate": "IAP-5559",
+            "vehicles_createdAt": "2024-03-07 18:47:44",
+            "vehicles_updatedAt": "2024-03-07 18:47:44",
+            "vehicles_deletedAt": null
+        },
+        {
+            "vehicles_id": 2,
+            "vehicles_color": "#fff",
+            "vehicles_brand": "Jeep",
+            "vehicles_plate": "MQA-0922",
+            "vehicles_createdAt": "2024-03-07 18:48:09",
+            "vehicles_updatedAt": "2024-03-07 18:48:09",
+            "vehicles_deletedAt": null
+        },
+        {
+            "vehicles_id": 3,
+            "vehicles_color": "#fff",
+            "vehicles_brand": "Renault",
+            "vehicles_plate": "HEM-6817",
+            "vehicles_createdAt": "2024-03-07 18:48:22",
+            "vehicles_updatedAt": "2024-03-07 18:48:22",
+            "vehicles_deletedAt": null
+        },
+        {
+            "vehicles_id": 4,
+            "vehicles_color": "Orange",
+            "vehicles_brand": "fiat",
+            "vehicles_plate": "HEM-6818",
+            "vehicles_createdAt": "2024-03-08 01:03:53",
+            "vehicles_updatedAt": "2024-03-08 01:04:55",
+            "vehicles_deletedAt": null
+        }
+    ],
+    "meta": {
+        "totalItems": 4,
+        "itemCount": 4,
+        "itemsPerPage": 10,
+        "totalPages": 1,
+        "currentPage": 1
+    }
+}
+    ``` 
+
+</details>
+
+####  10 - Buscar veículos por filtro de cor e/ou marca
+- (GET): `http://localhost:3000/vehicle?color=orange&brand=fiat`
+<details>
+- Response:
+
+    ```json
+   {
+    "items": [
+        {
+            "vehicles_id": 4,
+            "vehicles_color": "Orange",
+            "vehicles_brand": "fiat",
+            "vehicles_plate": "HEM-6818",
+            "vehicles_createdAt": "2024-03-08 01:03:53",
+            "vehicles_updatedAt": "2024-03-08 01:04:55",
+            "vehicles_deletedAt": null
+        }
+    ],
+    "meta": {
+        "totalItems": 1,
+        "itemCount": 1,
+        "itemsPerPage": 10,
+        "totalPages": 1,
+        "currentPage": 1
+    }
+}
+    ``` 
+
+</details>
+
+####  11 - Deletar veículo com o número de identificação
+- (DELETE): `http://localhost:3000/vehicle/:id`
+<details>
+
+
+- Response: 
+
+    ```json
+    {
+        "msg": "Vehicle {id} successfully deleted!"
+    }
+    ```
+
+</details>
+
+####  12 - Criar uma alocação de veículo
+- (POST): `http://localhost:3000/car-utilization-record`
+<details>
+- Regras: 
+    - Só é possível criar uma alocação, caso nem o motorista nem o veículo estão com finalização de alguma alocação pendente;
+
+- Payload:
+    ```json
+    {
+      "vehicleId":4,
+      "driverId": 4,
+      "reason": "part",
+      "utilizationStartDate":"2024-03-07"
+    }
+    ``` 
+
+- Response:
+
+    ```json
+    {
+    "driver": {
+        "id": 4,
+        "name": "Star Lord",
+        "createdAt": "2024-03-08T00:55:09.000Z",
+        "updatedAt": "2024-03-08T00:56:09.000Z",
+        "deletedAt": null
+    },
+    "vehicle": {
+        "id": 4,
+        "color": "Orange",
+        "brand": "fiat",
+        "plate": "HEM-6818",
+        "createdAt": "2024-03-08T01:03:53.000Z",
+        "updatedAt": "2024-03-08T01:04:55.000Z",
+        "deletedAt": null
+    },
+    "reason": "party",
+    "utilizationStartDate": "2024-03-07T00:00:00.000Z",
+    "utilizationEndDate": null,
+    "id": 8,
+    "createdAt": "2024-03-08T01:12:40.000Z",
+    "updatedAt": "2024-03-08T01:12:40.000Z",
+    "deletedAt": null
+}
+    ``` 
+</details>
+
+####  13 - Finalizar uma relação entre o motorista e um veículo
+- (POST): `http://localhost:3000/car-utilization-record/finish/8`
+<details>
+- Payload:
+
+    ```json
+    {
+       "utilizationEndDate": "2024-03-08"
+    }
+    ``` 
+
+- Response:
+
+    ```json
+    {
+       "id": 8,
+      "reason": "party",
+      "utilizationStartDate": "2024-03-07T00:00:00.000Z",
+      "utilizationEndDate": "2024-03-08T00:00:00.000Z",
+      "createdAt": "2024-03-08T01:12:40.000Z",
+      "updatedAt": "2024-03-08T01:15:36.000Z",
+      "deletedAt": null
+    }
+    ``` 
+</details>
