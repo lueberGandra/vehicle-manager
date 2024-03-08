@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateCarUtilizationRecordDto } from './dto/create-car-utilization-record.dto';
-import { UpdateCarUtilizationRecordDto } from './dto/update-car-utilization-record.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CarUtilizationRecord } from 'src/libs/typeorm/entities/car-utilization-record.entity';

@@ -18,7 +18,6 @@ describe('Driver', () => {
     beforeEach(async () => {
         jest.clearAllMocks();
 
-        // Access the mocked function here, inside the beforeEach or directly in the tests if needed
         const { paginateRaw: mockedPaginateRaw } = require('nestjs-typeorm-paginate');
         paginateRaw = mockedPaginateRaw;
         paginateRaw.mockResolvedValueOnce({
@@ -97,25 +96,25 @@ describe('Driver', () => {
 
         it('should paginate and return drivers correctly', async () => {
             const queryData = { page: '1', limit: '10' };
-          
+
 
             driverRepository.createQueryBuilder.mockReturnValue(queryBuilder);
-            paginateRaw.mockResolvedValueOnce(paginateDrivers);  // Ensure this matches your expected structure
+            paginateRaw.mockResolvedValueOnce(paginateDrivers);
 
             const result = await service.findAllDrivers(queryData);
 
             expect(driverRepository.createQueryBuilder).toHaveBeenCalledWith('drivers');
-            expect(result).toEqual(paginateDrivers);  // Now they should match
+            expect(result).toEqual(paginateDrivers);
         });
 
         it('should apply filters correctly', async () => {
             const queryData = {
                 page: '1',
                 limit: '10',
-                name: 'John' // Ensure this data triggers the andWhere clause in the method
+                name: 'John'
             };
 
-            // Setup the queryBuilder mock if not already set in a higher scope
+
             const queryBuilder = {
                 andWhere: jest.fn().mockReturnThis(),
                 select: jest.fn().mockReturnThis(),
@@ -128,7 +127,7 @@ describe('Driver', () => {
 
             await service.findAllDrivers(queryData);
 
-            // Ensure the filter is correctly transformed and passed to andWhere
+
             expect(queryBuilder.andWhere).toHaveBeenCalledWith(
                 "LOWER(drivers.name) LIKE '%john%'"
             );
@@ -259,7 +258,7 @@ describe('Driver', () => {
 
         it('should throw an HttpException if an error occurs during the deletion process', async () => {
             const errorMessage = `Driver ${mockDriverId} not found!`;
-            driverRepository.findOne.mockResolvedValueOnce(driver); // Assume the driver is found
+            driverRepository.findOne.mockResolvedValueOnce(driver);
             driverRepository.softDelete.mockRejectedValueOnce(new Error(errorMessage));
 
             await expect(service.deleteDriver(mockDriverId))

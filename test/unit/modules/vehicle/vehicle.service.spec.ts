@@ -49,7 +49,7 @@ describe('VehicleService', () => {
     });
 
     it('should create and return a vehicle', async () => {
-        const createVehicleDto = { color: 'red', brand: 'GM', plate:'GWA-8210'};
+        const createVehicleDto = { color: 'red', brand: 'GM', plate: 'GWA-8210' };
         const expectedVehicle = { /* ... */ };
         vehicleRepositoryMock.save.mockResolvedValue(expectedVehicle);
 
@@ -59,7 +59,6 @@ describe('VehicleService', () => {
         expect(result).toEqual(expectedVehicle);
     });
     it('should throw an HttpException when creating a vehicle fails', async () => {
-        const createVehicleDto = { brand: 'Test Brand', model: 'Test Model' };
         const errorMessage = 'Error saving vehicle';
         vehicleRepositoryMock.save.mockRejectedValue(new Error(errorMessage));
 
@@ -75,9 +74,8 @@ describe('VehicleService', () => {
             }));
     });
     it('should return all vehicles and apply filters correctly', async () => {
-        const queryData = { page: '1', limit: '10', name: 'Toyota' }; // Include a filter in the query data
+        const queryData = { page: '1', limit: '10', name: 'Toyota' };
 
-        // Setup the query builder mock with chainable methods
         const queryBuilderMock = {
             andWhere: jest.fn().mockReturnThis(),
             limit: jest.fn().mockReturnThis(),
@@ -87,22 +85,19 @@ describe('VehicleService', () => {
         };
         vehicleRepositoryMock.createQueryBuilder = jest.fn(() => queryBuilderMock);
 
-        // Call the service method
         const result = await service.findAllVehicles(queryData);
 
-        // Check if the `andWhere` was called with the correct argument
         expect(queryBuilderMock.andWhere).toHaveBeenCalledWith(
             `LOWER(vehicles.name) LIKE '%${queryData.name.toLowerCase()}%'`
         );
 
-        // Assuming your service correctly handles pagination and filtering
         expect(result.items).toEqual(vehicles);
         expect(result.meta.totalItems).toEqual(vehicles.length);
     });
 
     it('should return a vehicle by id', async () => {
         const vehicleId = 1;
-        const expectedVehicle = { id: vehicleId, /* ... */ };
+        const expectedVehicle = { id: vehicleId };
         vehicleRepositoryMock.findOne.mockResolvedValue(expectedVehicle);
 
         const result = await service.findVehicleById(vehicleId);
@@ -112,7 +107,7 @@ describe('VehicleService', () => {
     });
     it('should update and return the vehicle', async () => {
         const vehicleId = 1;
-        const updateVehicleData = { /* ... */ };
+        const updateVehicleData = {};
         const updatedVehicle = { id: vehicleId, ...updateVehicleData };
         vehicleRepositoryMock.findOne.mockResolvedValue(updatedVehicle);
         vehicleRepositoryMock.save.mockResolvedValue(updatedVehicle);
@@ -133,9 +128,5 @@ describe('VehicleService', () => {
         expect(vehicleRepositoryMock.softDelete).toHaveBeenCalledWith({ id: vehicleId });
         expect(result).toEqual(expectedResponse);
     });
-
-
-
-
 
 });

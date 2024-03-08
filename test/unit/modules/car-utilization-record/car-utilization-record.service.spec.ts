@@ -18,17 +18,14 @@ describe('CarUtilizationRecordService', () => {
             find: jest.fn(),
             findOne: jest.fn(),
             save: jest.fn(),
-            // Add other necessary repository methods
         };
 
         mockDriverRepository = {
             findOne: jest.fn(),
-            // Add other necessary repository methods
         };
 
         mockVehicleRepository = {
             findOne: jest.fn(),
-            // Add other necessary repository methods
         };
 
         const module: TestingModule = await Test.createTestingModule({
@@ -55,7 +52,6 @@ describe('CarUtilizationRecordService', () => {
         const carUtilizationRecordId = 1;
         const finishCarUtilizationRecordData = { utilizationEndDate: new Date() };
 
-        // Mocking the findOne method to return null
         mockCarUtilizationRecordRepository.findOne.mockResolvedValue(null);
 
         await expect(service.finishCarUtilization(carUtilizationRecordId, finishCarUtilizationRecordData))
@@ -76,7 +72,6 @@ describe('CarUtilizationRecordService', () => {
         const utilizationEndDate = new Date(utilizationStartDate.getTime() - 1000); // Less than utilizationStartDate
         const finishCarUtilizationRecordData = { utilizationEndDate };
 
-        // Mocking the findOne method to return a car utilization record
         const carUtilizationRecord = { id: carUtilizationRecordId, utilizationStartDate };
         mockCarUtilizationRecordRepository.findOne.mockResolvedValue(carUtilizationRecord);
 
@@ -101,19 +96,15 @@ describe('CarUtilizationRecordService', () => {
         };
         const errorMessage = `Driver ${createCarUtilizationRecordData.driverId} not found!`
 
-        // Mocking the findOne method of driver and vehicle repositories to return null
         mockDriverRepository.findOne.mockResolvedValue(null);
         mockVehicleRepository.findOne.mockResolvedValue(null);
 
-        // Mocking the save method of the car utilization record repository to throw an error
         mockCarUtilizationRecordRepository.save.mockRejectedValue(new Error(errorMessage));
 
         try {
             await service.createsRecord(createCarUtilizationRecordData);
-            // Fail the test if the method doesn't throw an exception
             fail('Expected method to throw an exception');
         } catch (error) {
-            // Assert that the thrown exception is an HttpException with the appropriate message and status
             expect(error).toBeInstanceOf(HttpException);
             expect(error.message).toBe(errorMessage);
             expect(error.getStatus()).toBe(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -128,19 +119,15 @@ describe('CarUtilizationRecordService', () => {
         };
         const errorMessage = `Vehicle ${createCarUtilizationRecordData.driverId} not found!`
 
-        // Mocking the findOne method of driver and vehicle repositories to return null
         mockDriverRepository.findOne.mockResolvedValue(drivers[0]);
         mockVehicleRepository.findOne.mockResolvedValue(null);
 
-        // Mocking the save method of the car utilization record repository to throw an error
         mockCarUtilizationRecordRepository.save.mockRejectedValue(new Error(errorMessage));
 
         try {
             await service.createsRecord(createCarUtilizationRecordData);
-            // Fail the test if the method doesn't throw an exception
             fail('Expected method to throw an exception');
         } catch (error) {
-            // Assert that the thrown exception is an HttpException with the appropriate message and status
             expect(error).toBeInstanceOf(HttpException);
             expect(error.message).toBe(errorMessage);
             expect(error.getStatus()).toBe(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -149,14 +136,12 @@ describe('CarUtilizationRecordService', () => {
     it('should update the utilizationEndDate successfully', async () => {
         const carUtilizationRecordId = 1;
         const utilizationStartDate = new Date();
-        const utilizationEndDate = new Date(utilizationStartDate.getTime() + 1000); // Greater than utilizationStartDate
+        const utilizationEndDate = new Date(utilizationStartDate.getTime() + 1000);
         const finishCarUtilizationRecordData = { utilizationEndDate };
 
-        // Mocking the findOne method to return a car utilization record
         const carUtilizationRecord = { id: carUtilizationRecordId, utilizationStartDate };
         mockCarUtilizationRecordRepository.findOne.mockResolvedValue(carUtilizationRecord);
 
-        // Mocking the save method to return the updated car utilization record
         const updatedCarUtilizationRecord = { ...carUtilizationRecord, utilizationEndDate };
         mockCarUtilizationRecordRepository.save.mockResolvedValue(updatedCarUtilizationRecord);
 
@@ -173,13 +158,13 @@ describe('CarUtilizationRecordService', () => {
             "reason": "Hunger games",
             "utilizationStartDate": new Date("2024-03-08")
         };
-        const driver = { id: 1, /* driver details */ };
-        const vehicle = { id: 1, /* vehicle details */ };
+        const driver = { id: 1};
+        const vehicle = { id: 1 };
 
         mockDriverRepository.findOne.mockResolvedValue(driver);
         mockVehicleRepository.findOne.mockResolvedValue(vehicle);
         mockCarUtilizationRecordRepository.find.mockResolvedValue([]);
-        mockCarUtilizationRecordRepository.save.mockResolvedValue({ /* saved record data */ });
+        mockCarUtilizationRecordRepository.save.mockResolvedValue({ });
 
         const result = await service.createsRecord(createCarUtilizationRecordData);
 
