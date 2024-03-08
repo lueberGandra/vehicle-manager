@@ -39,7 +39,9 @@ export class DriverService {
   async findDriverById(id: number) {
     try {
       const driver = await this.driverRepository.findOne({ where: { id } })
-      if (!driver) throw new Error(`Driver ${id} not found!`)
+      if (!driver) {
+        throw new HttpException(`Driver ${id} not found!`, HttpStatus.NOT_FOUND);
+      }
       return driver
     } catch (error) {
       throw new HttpException(error.message, error.status || HttpStatus.INTERNAL_SERVER_ERROR);

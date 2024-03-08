@@ -62,16 +62,4 @@ export class CarUtilizationRecordService {
       throw new HttpException(error.message, error.status || HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} carUtilizationRecord`;
-  }
-
-  update(id: number, updateCarUtilizationRecordDto: UpdateCarUtilizationRecordDto) {
-    return `This action updates a #${id} carUtilizationRecord`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} carUtilizationRecord`;
-  }
 }
