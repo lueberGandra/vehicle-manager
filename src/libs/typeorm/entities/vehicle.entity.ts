@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { CarUtilizationRecord } from './car-utilization-record.entity';
 
 @Entity('vehicles')
 export class Vehicle {
@@ -14,6 +15,9 @@ export class Vehicle {
     @Column('text', { nullable: false, unique: true })
     plate: string;
 
+    @OneToMany(() => CarUtilizationRecord, (assignment) => assignment.vehicle)
+    assignments: CarUtilizationRecord[];
+
     @CreateDateColumn()
     createdAt: Date;
 
@@ -22,5 +26,5 @@ export class Vehicle {
 
     @DeleteDateColumn({ default: null })
     deletedAt: Date;
-
+    
 }
